@@ -61,10 +61,13 @@ nombre<-c("Weibull","Gumbel")
 rm(Gumbel)
 length(fdex)
 length(Weibull)
-plot(fdex, Weibul[,18], type="o", col="green")
-lines(fdex, Gumbe[,18], col="blue", type="o")
+plot(fdex, Weibul[,18], type="o", col="green",
+     xlab="f(x)",
+     ylab="Precipitaciones diarias (mm)",
+     main="Distribución Weibull y Gumbel para la Sub 18",lwd = 2)
+lines(fdex, Gumbe[,18], col="blue", type="o",lwd = 2)
 legend("topleft", Weibull, nombre, cex = 0.6,
-       col = c("green", "blue"), pch = 21:23, lty=1:3)
+       col = c("green", "blue"), pch = 21:23, lty=1:3, lwd = 2)
 
 
-
+?plot
