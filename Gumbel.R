@@ -31,7 +31,7 @@ sort(m, decreasing = T)
 apply(m, 2, sort, decreasing=T)
 
 #order the february1998 dataframe "Weibull"
-Weibull<-apply(febrero1998, 2, sort, decreasing=T)
+Weibul<-apply(febrero1998, 2, sort, decreasing=T)
 View(Weibull)
 
 # generate data to f(x)
@@ -45,24 +45,26 @@ fde
 #to fdex
 fdex<-sort(fde, decreasing = T)
 #...generate gumbel to each subbasin
-Gumbel<-data.frame() 
+Gumbe<-data.frame() 
 for (i in 1:18) {
   Gumbel_tem<-NULL
   for (j in 1:28) {
     gum<- -log(-log(fdex[j]))*α[i]+µ[i]
     Gumbel_tem<-c(Gumbel_tem, gum)
   }
-  Gumbel[1:28, i]<-Gumbel_tem
+  Gumbe[1:28, i]<-Gumbel_tem
 }
-View(Gumbel)
+View(Gumbe)
 
 #plot of Weibull and Gumbel
-nu(fdex)
+nombre<-c("Weibull","Gumbel")
+rm(Gumbel)
 length(fdex)
 length(Weibull)
-plot(fdex, Weibull[,18], type="o")
-lines(fdex, Gumbel[,18], col="blue", type="o")
-legend("topleft")
-?legend
+plot(fdex, Weibul[,18], type="o", col="green")
+lines(fdex, Gumbe[,18], col="blue", type="o")
+legend("topleft", Weibull, nombre, cex = 0.6,
+       col = c("green", "blue"), pch = 21:23, lty=1:3)
+
 
 
