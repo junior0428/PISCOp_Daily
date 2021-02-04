@@ -32,6 +32,7 @@ for (i in 1:18) {
        lwd="2.5",
        main=title,
        sub="Fuente: Datos Diarios PISCOp SENAMHI")
+  dev.off()
 }
 
 rm(points_long_tati)

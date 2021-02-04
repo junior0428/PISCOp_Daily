@@ -32,7 +32,7 @@ apply(m, 2, sort, decreasing=T)
 
 #order the february1998 dataframe "Weibull"
 Weibul<-apply(febrero1998, 2, sort, decreasing=T)
-View(Weibull)
+View(Weibul)
 
 # generate data to f(x)
 f<-c(1:28)
@@ -60,7 +60,7 @@ View(Gumbe)
 nombre<-c("Weibull","Gumbel")
 rm(Gumbel)
 length(fdex)
-length(Weibull)
+length(Weibul)
 plot(fdex, Weibul[,18], type="o", col="green",
      xlab="f(x)",
      ylab="Precipitaciones diarias (mm)",
@@ -68,6 +68,44 @@ plot(fdex, Weibul[,18], type="o", col="green",
 lines(fdex, Gumbe[,18], col="blue", type="o",lwd = 2)
 legend("topleft", Weibull, nombre, cex = 0.6,
        col = c("green", "blue"), pch = 21:23, lty=1:3, lwd = 2)
+length(α)
+#Tiempo de retorno 
+trs<-c(10, 30, 50, 100)
+TiemRetorno<-data.frame()
+for (jj in 1:4) {
+  fx<-(1-(1/trs[jj]))
+  tr_tem<-NULL
+  for (ii in 1:18) {
+    tr<- -log(-log(fx))*α[ii]+µ[ii]
+    tr_tem<-c(tr_tem, tr)
+  }
+  TiemRetorno[1:18, jj]<-tr_tem
+}
 
+names(TiemRetorno)<-c("TR=10", "TR=30", "TR=50", "TR=100")
+View(TiemRetorno)
 
-?plot
+write.csv(TiemRetorno, "Tiempo_Retorno.csv")
+
+#export in graph 
+Subcuenca<-c(colnames(febrero1998))
+plot_colors<-c("green","#FFCC00", "red","blue")
+max_y<-max(TiemRetorno)
+plot(TiemRetorno$`TR=10`,type = "o",  ylim=c(10,max_y), axes=FALSE, ann=FALSE, col=plot_colors[1])
+lines(TiemRetorno$`TR=30`, type = "o", col=plot_colors[2])
+lines(TiemRetorno$`TR=50`, type = "o", col=plot_colors[3])
+lines(TiemRetorno$`TR=100`, type = "o", col=plot_colors[4])
+axis(1, at=1:18, lab=Subcuenca)
+axis(2, las=1, at=4*0:max_y)
+
+# Create a title with a red, bold/italic font
+title(main="Tiempo de Retorno para las Subcuencas de la cuenca de rio Piura", font.main=4)
+
+# Label the x and y axes with dark green text
+title(xlab= "Centroide de las Subcuencas")
+title(ylab= "Precipitaciones Maximas (mm)")
+
+#Leyenda
+legend("topright", max_y, names(TiemRetorno), cex=0.6, col=plot_colors,
+       pch=21:23, lty=1:3)
+
